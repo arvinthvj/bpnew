@@ -1,0 +1,25 @@
+.App {
+  text-align: center;
+}
+
+.CookieConsent{
+  width: 350px !important;
+  left: 15px !important;
+  bottom: 57px !important;
+  padding: 10px;
+  display: block !important;
+  text-align: left;
+  opacity: 0.7 !important;
+}
+
+.cookie_policy_icon{
+  width: 15px;
+  height: 15px;
+  cursor: pointer;
+}
+
+.cookie_accept_btn{
+  color: #fff !important;
+  background-color: #EF5A2F !important;
+  border-color: #EF5A2F !important;
+}

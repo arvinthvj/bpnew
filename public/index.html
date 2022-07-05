@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#000000" />
+    <meta charset="utf-8" />
+    <meta name="locale" content="en" />
+    <meta name="google" content="notranslate" />
+    <meta property="fb:app_id" content="533897440619844" />
+    <meta property="og:site_name" content="PartnerHere" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:title" content="PartnerHere - Do Deals Differently" />
+    <meta
+      name="og:description"
+      content="The Best Place on the Web to Start or Grow Your Business…without Cash"
+    />
+    <meta
+      id="marketplace_metatag_image"
+      property="og:image"
+      content="%PUBLIC_URL%/images/thumbnails/partner_logo.png"
+    />
+    <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
+    <!--
+      manifest.json provides metadata used when your web app is installed on a
+      user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
+    -->
+    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+    <!--
+      Notice the use of %PUBLIC_URL% in the tags above.
+      It will be replaced with the URL of the `public` folder during the build.
+      Only files inside the `public` folder can be referenced from the HTML.
+
+      Unlike "/favicon.ico" or "favicon.ico", "%PUBLIC_URL%/favicon.ico" will
+      work correctly both with client-side routing and a non-root public URL.
+      Learn how to configure a non-root public URL by running `npm run build`.
+    -->
+    <!-- <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.css"
+      rel="stylesheet"
+    /> -->
+    <!-- <link
+      href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+      rel="stylesheet"
+      integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN"
+      crossorigin="anonymous"
+    /> -->
+    <title>PartnerHere</title>
+    <script
+      src="https://media.twiliocdn.com/sdk/js/chat/v3.3/twilio-chat.min.js"
+      async
+    ></script>
+
+    <script
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA7mQPZZBPOWpse53-VXly9TOxKcLHkbSg&libraries=places"
+      async
+    ></script>
+  </head>
+
+  <body>
+    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <div id="root"></div>
+    <!--
+      This HTML file is a template.
+      If you open it directly in the browser, you will see an empty page.
+
+      You can add webfonts, meta tags, or analytics to this file.
+      The build step will place the bundled scripts into the <body> tag.
+
+      To begin the development, run `npm start` or `yarn start`.
+      To create a production bundle, use `npm run build` or `yarn build`.
+    -->
+    <script type="text/javascript">
+      (function (apiKey) {
+        (function (p, e, n, d, o) {
+          var v, w, x, y, z;
+          o = p[d] = p[d] || {};
+          o._q = o._q || [];
+          v = ["initialize", "identify", "updateOptions", "pageLoad", "track"];
+          for (w = 0, x = v.length; w < x; ++w)
+            (function (m) {
+              o[m] =
+                o[m] ||
+                function () {
+                  o._q[m === v[0] ? "unshift" : "push"](
+                    [m].concat([].slice.call(arguments, 0))
+                  );
+                };
+            })(v[w]);
+          y = e.createElement(n);
+          y.async = !0;
+          y.src = "https://cdn.pendo.io/agent/static/" + apiKey + "/pendo.js";
+          z = e.getElementsByTagName(n)[0];
+          z.parentNode.insertBefore(y, z);
+        })(window, document, "script", "pendo");
+      })("2f37c0e6-7f9e-401c-6a02-af7e64062714");
+
+      (function () {
+        var css = document.createElement("link");
+        css.href =
+          "https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.css";
+        css.rel = "stylesheet";
+        css.type = "text/css";
+        document.getElementsByTagName("head")[0].appendChild(css);
+      })();
+    </script>
+    <script type="text/javascript">
+      (function () {
+        var css = document.createElement("link");
+        css.href =
+          "//netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css";
+        css.rel = "stylesheet";
+        css.type = "text/css";
+        document.getElementsByTagName("head")[0].appendChild(css);
+      })();
+    </script>
+    <script src="/js/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script> -->
+    <script
+      async
+      src="https://cdnjs.cloudflare.com/ajax/libs/wow/1.1.2/wow.js"
+    ></script>
+    <!-- <script src="/js/jquery-3.4.1.slim.min.js"></script> -->
+    <script async src="/js/popper.min.js"></script>
+    <script async src="/js/bootstrap.min.js"></script>
+
+    <script async src="/js/owl.carousel.min.js"></script>
+    <script async src="/js/custom_scrollbar.min.js"></script>
+    <script async src="/js/lightbox.min.js"></script>
+    <script async src="/js/custom.js"></script>
+    <script>
+      (function ($) {
+        $(window).on("load", function () {
+          $.mCustomScrollbar.defaults.scrollButtons.enable = true; //enable scrolling buttons by default
+          $.mCustomScrollbar.defaults.axis = "y"; //enable 2 axis scrollbars by default
+          $("#boxscroll-1").mCustomScrollbar();
+          $("#boxscroll-2").mCustomScrollbar();
+          $("#boxscroll-3").mCustomScrollbar({ theme: "rounded-dark" });
+          $("#content-i2d").mCustomScrollbar({ theme: "inset-2-dark" });
+          $("#content-i3d").mCustomScrollbar({ theme: "inset-3-dark" });
+          $("#content-3d").mCustomScrollbar({ theme: "3d" });
+        });
+      })(jQuery);
+    </script>
+  </body>
+</html>

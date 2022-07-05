@@ -1,0 +1,29 @@
+.create_profile_form{
+    margin: 0 !important;
+    max-width: 100% !important;
+}
+
+.field_disabled{
+    opacity: 0.6;
+}
+
+.address_input_field_wrapper{
+    position: relative;
+    overflow: hidden;
+    display: inline-block;
+}
+
+.address_info_icon{
+    left: auto !important;
+    right: 5px;
+    cursor: pointer;
+    width: 10px !important;
+    position: absolute;
+    height: 10px !important;
+    margin: 15px 15px !important;
+}
+
+.charCount-CPF {
+    position: absolute;
+    right: 2rem;
+}

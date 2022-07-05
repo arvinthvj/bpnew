@@ -1,0 +1,38 @@
+.register_form_phone_input .PhoneInputCountry .PhoneInputCountryIcon--border{
+    background-color: transparent !important;
+    box-shadow: none !important;
+}
+
+.register_form_phone_input .PhoneInputCountry .PhoneInputCountryIcon{
+    height: 100% !important;
+}
+
+.register_form_phone_input {
+    background-color: #fff;
+    border: 1px solid #EBEBEB;
+    margin: 0;
+    border-radius: 5px;
+    padding: 10px;
+}
+
+.register_form_phone_input_field{
+    border: none;
+    outline: 0;
+}
+
+.register_form_phone_input_field:focus > .register_form_phone_input{
+    border: 1px solid #EF5A2F !important;
+}
+
+.register_form_phone_input.PhoneInput--focus{
+    border: 1px solid #EF5A2F !important;
+}
+
+.input_modify:focus .PhoneInputCountry, .input_modify:active .PhoneInputCountry {
+    border-color: #EF5A2F !important;
+    outline: 0;
+}
+
+.terms_condi_check .check_mark{
+    border: 1px solid #EF5A2F;
+}

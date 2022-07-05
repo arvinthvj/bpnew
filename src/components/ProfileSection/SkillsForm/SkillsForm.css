@@ -1,0 +1,86 @@
+.add_skills_wrapper{
+    position: relative;
+}
+
+.skills_list_container{
+    display: block;
+    width: 100%;
+    padding: 0px;
+    float: left;
+    left: 0px;
+    position: absolute;
+    background-color: rgb(255, 255, 255);
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 2px 5px 0px, rgba(0, 0, 0, 0.12) 0px 1px 6px;
+    border-radius: 5px;
+    z-index: 0;
+    transition: all 0.1s ease-in-out 0s;
+    max-height: 160px;
+    overflow-y: auto;
+}
+
+.skills-list .skills_result_list {
+    padding: 0;
+    margin: 0;
+}
+
+.skills-list .skills_result_list li.result_items:first-child {
+    border-top: 0;
+}
+
+.skills-list .skills_result_list li.result_items{
+    list-style: none;
+    float: left;
+    text-align: left;
+    width: 100%;
+    border-top: 1px solid #f0f0f0;
+    display: block;
+}
+
+.skills-list .skills_result_list li.result_items .text_result{
+    display: block;
+    width: 100%;
+    padding: 0 16px;
+    clear: both;
+    font-weight: 400;
+    font-size: 14px;
+    color: #EF5A2F;
+    text-align: inherit;
+    white-space: nowrap;
+    background-color: transparent;
+    border: 0;
+}
+
+.search_tagline{
+    width: 100%;
+    float: right;
+    padding-bottom: 15px;
+    padding-top: 15px;
+    font-size: 15px;
+    font-weight: 500;
+    letter-spacing: 1px;
+    color: #EF5A2F;
+}
+
+.skills_list_container::-webkit-scrollbar {
+    width: 0px;  /* Remove scrollbar space */
+    background: transparent;  /* Optional: just make scrollbar invisible */
+}
+/* Optional: show position indicator in red */
+.skills_list_container::-webkit-scrollbar-thumb {
+    background: #FF0000;
+}
+
+.skills_info_icon{
+    left: auto !important;
+    right: 5px;
+    cursor: pointer;
+    width: 10px !important;
+    position: absolute;
+    height: 10px !important;
+    margin: 48px 15px !important;
+}
+
+.charCount-SF {
+    position: absolute;
+    right: 2rem;
+}

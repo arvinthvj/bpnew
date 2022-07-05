@@ -1,0 +1,51 @@
+.experience_portfolio_date_picker {
+    padding-left: 20px !important;
+    padding-right: 20px !important;
+    margin: 0 !important;
+    padding-top: 5px !important;
+    border: 1px solid #EBEBEB !important;
+}
+
+.addd_experience_form .input_modify{
+    height: 60px !important;
+}
+
+.experience_portfolio_date_picker.error{
+    border-color: rgb(240, 77, 83) !important;
+    border-left-width: 5px !important;
+    border-left-style: solid !important;
+}
+
+.experience_portfolio_date_picker .MuiInput-underline:before{
+    border: 0 !important;
+}
+
+.experience_portfolio_date_picker .MuiInput-underline{
+    border: 0 !important;
+    outline: 0 !important;
+}
+
+.experience_portfolio_date_picker .MuiIconButton-root{
+    padding: 0 !important;
+    margin-top: 12px !important;
+}
+
+.experience_portfolio_date_picker .MuiInput-underline:hover:not(.Mui-disabled):before{
+    border: 0 !important;
+}
+
+.experience_portfolio_date_picker .MuiInput-underline:before{
+    border: 0 !important;
+}
+
+.experience_portfolio_date_picker .MuiInput-underline:after{
+    border: 0 !important;
+}
+
+.experience_portfolio_date_picker .MuiInputBase-input{
+    padding: 12px 0 7px !important;
+}
+
+.experience_portfolio_date_picker .MuiFormHelperText-root {
+    padding-top: 8px !important;
+}

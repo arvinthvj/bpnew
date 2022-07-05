@@ -1,0 +1,51 @@
+.account_update_form_phone_input .PhoneInputCountry .PhoneInputCountryIcon--border{
+    background-color: transparent !important;
+    box-shadow: none !important;
+}
+
+.account_update_form_phone_input .PhoneInputCountry .PhoneInputCountryIcon{
+    height: 100% !important;
+}
+
+.account_update_form_phone_input .PhoneInputCountry{
+    height: 100%;
+}
+
+.account_update_form_phone_input {
+    background-color: #fff;
+    border: 1px solid #EBEBEB;
+    margin: 0;
+    border-radius: 5px;
+    padding: 10px;
+}
+
+.account_update_form_phone_input_field{
+    border: none;
+    outline: 0;
+}
+
+.account_update_form_phone_input_field:focus > .account_update_form_phone_input{
+    border: 1px solid #EF5A2F !important;
+}
+
+.account_update_form_phone_input.PhoneInput--focus{
+    border: 1px solid #EF5A2F !important;
+}
+
+.input_modify:focus .PhoneInputCountry, .input_modify:active .PhoneInputCountry {
+    border-color: #EF5A2F !important;
+    outline: 0;
+}
+
+.account_update_form_phone_input_field:disabled{
+    background-color: transparent;
+    opacity: 0.5;
+}
+
+.upgrade_subscription_btn{
+    max-width: 500px;
+    width: 100%;
+    /* margin-left: auto; */
+    /* margin-right: auto; */
+    margin: 20px auto 0;
+}

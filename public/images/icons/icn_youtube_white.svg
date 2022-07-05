@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="390" viewBox="0 0 512 390">
+  <g id="Group_1" data-name="Group 1" transform="translate(-418 -458)">
+    <g id="youtube" transform="translate(682 388)">
+      <g id="youtube_1_" data-name="youtube (1)" transform="translate(-264 70)">
+        <path id="Path_3" data-name="Path 3" d="M75,390H437a75.084,75.084,0,0,0,75-75V75A75.084,75.084,0,0,0,437,0H75A75.084,75.084,0,0,0,0,75V315A75.084,75.084,0,0,0,75,390ZM30,75A45.052,45.052,0,0,1,75,30H437a45.052,45.052,0,0,1,45,45V315a45.052,45.052,0,0,1-45,45H75a45.052,45.052,0,0,1-45-45Zm0,0" fill="#fff"/>
+        <path id="Path_4" data-name="Path 4" d="M181,94.508v203.9L361.5,194.785Zm30,50.984,89.5,49.723L211,246.594Zm0,0" fill="#fff"/>
+      </g>
+    </g>
+  </g>
+</svg>

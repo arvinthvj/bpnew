@@ -1,0 +1,82 @@
+.custom_video_player_container{
+    z-index: 2;
+    height: 100% !important;
+}
+
+.video-react .video-react-control-bar{
+    background-color: #EF5A2F !important;
+}
+
+.hide_timer{
+    display: none !important;
+}
+
+/* Play Button Change CSS Start */
+
+.video-react .video-react-big-play-button:before{
+    content: "";
+    background-image: url('/custom_images/home_play_icon_1.svg');
+    background-repeat: no-repeat;
+    background-size: 80px;
+    width: 80px;
+    height: 80px;
+    background-position: 55% calc(50% - 0px);
+    border: none !important;
+    box-shadow: none !important;
+}
+
+.video-react .video-react-big-play-button{
+    background-color: transparent !important;
+    border: 0 !important;
+    z-index: 2;
+}
+
+.url_video_player_paly_btn{
+    background: none;
+    outline: 0;
+    border: none;
+    width: 50px;
+}
+
+/* Play Button Change CSS Ends */
+
+
+.video-react-poster::after{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    /* background-color: rgba(255,255,255, 0.8); */
+    content: '';
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    z-index: 1;
+}
+
+.video-react .video-react-big-play-button.video-react-big-play-button-center{
+    top:31% !important;
+    left: 58% !important;
+    margin-top: 0;
+    margin-left: 0;
+}
+
+@media (max-width: 1199px) {
+    
+    .video-react .video-react-big-play-button:before{
+        background-size: 60px;
+        width: 60px;
+        height: 60px;
+    }
+}
+
+@media (max-width: 575px) {
+    .video-react .video-react-big-play-button.video-react-big-play-button-center{
+        top:29% !important;
+    }
+    .video-react .video-react-big-play-button:before{
+        background-size: 50px;
+        width: 50px;
+        height: 50px;
+    }
+}

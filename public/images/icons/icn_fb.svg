@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="43" height="43" viewBox="0 0 43 43">
+  <defs>
+    <image id="image" width="15" height="25" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAAZCAYAAADuWXTMAAAABHNCSVQICAgIfAhkiAAAARxJREFUOE/tk7FKQzEUhr9LHVycOhYKrro4dStX4yA4KRSlmd0yKDjYzW5dHM0rRJxcnSL4BoLo5qTgEwi11CtHO4Q01doWuniWG07Ol/z3nD9ZURSkQmmbAfvAAVADlqK6PEvBStsF4AJoJE/+Tu6OgjtA6wcwDStty8AzsDgJvAdcJsAP4BXoAbJuDMlW2opckR1GF1jxzjyFyRTcBk4j+ME7sxqrGRe+886sJWGlrcywNNgU2SdR4T1QD3Lv3pm3bKN5vg7c/NLZeLsPVATeAa7+CEv58nzhLeB6Atlf/yyvpwrIV+IIOIwOewS2g1zPO/My/ZzDWza1bRfDDhttkhBW2qbs+Q8PmjTbUU3b7WPgLHLYrXcmjy38CRNHpqpAe8iMAAAAAElFTkSuQmCC"/>
+  </defs>
+  <g id="Group_1" data-name="Group 1" transform="translate(-199 -342)">
+    <rect id="Rounded_Rectangle_3_copy" data-name="Rounded Rectangle 3 copy" width="43" height="43" rx="4" transform="translate(199 342)" fill="#fff"/>
+    <use id="facebook-logo" transform="translate(214 351)" xlink:href="#image"/>
+    <rect id="Rounded_Rectangle_3_copy-2" data-name="Rounded Rectangle 3 copy" width="43" height="43" rx="4" transform="translate(199 342)" fill="#fff"/>
+    <use id="facebook-logo-2" data-name="facebook-logo" transform="translate(214 351)" xlink:href="#image"/>
+  </g>
+</svg>

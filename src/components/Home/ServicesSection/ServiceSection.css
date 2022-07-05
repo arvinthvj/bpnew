@@ -1,0 +1,24 @@
+.disabled_filters{
+    cursor: default !important;
+}
+
+.mobile_reset_btn{
+    display: none !important;
+}
+
+@media only screen and (max-width: 575px){
+    .mobile_reset_btn{
+        display: block !important;
+        text-align: center;
+        margin-top: 10px;
+    }
+    .desktop_reset_btn{
+        display: none !important;
+    }
+}
+
+.reset_btn_wrapper{
+    display: flex !important;
+    align-items: center;
+    justify-content: space-between;
+}

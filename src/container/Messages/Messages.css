@@ -1,0 +1,27 @@
+#boxscroll-1{
+    scrollbar-color: transparent transparent;
+    scrollbar-width: none;
+}
+
+#boxscroll-1::-webkit-scrollbar {
+    width: 0px;  /* Remove scrollbar space */
+    background: transparent;  /* Optional: just make scrollbar invisible */
+}
+  /* Optional: show position indicator in red */
+  #boxscroll-1::-webkit-scrollbar-thumb {
+    background: transparent;
+}
+
+#boxscroll-2{
+    scrollbar-color: transparent transparent;
+    scrollbar-width: none;
+}
+
+#boxscroll-2::-webkit-scrollbar {
+    width: 0px;  /* Remove scrollbar space */
+    background: transparent;  /* Optional: just make scrollbar invisible */
+}
+  /* Optional: show position indicator in red */
+  #boxscroll-2::-webkit-scrollbar-thumb {
+    background: transparent;
+}
