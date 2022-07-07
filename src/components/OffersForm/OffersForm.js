@@ -18,8 +18,8 @@ const OffersForm = (props) => {
     const history = useHistory()
 
     const selectedCategory = (event) => {
-        let Name = event.target.value
-        props.setSelectedCategory(Name)
+        // let Name = event.target.value
+        props.setSelectedCategory(event)
     };
 
 
@@ -60,6 +60,24 @@ const OffersForm = (props) => {
         return skillsData;
     }
 
+    const listOfCategories = props.categories.map(loc => {
+        return {
+            value: loc.name,
+            label: loc.name === Categories.JOBS_GIGS ? "Services" : loc.name === Categories.SHARING_OPPORTUNITIES ? "Information" : loc.name === Categories.DONATIONS ? "Other/Misc" : loc.name
+        }
+    })
+
+    const getCategories = (lists) => {
+        let listsData = [];
+        lists.forEach(division => {
+            listsData.push({
+                value: division.name,
+                label: division.name
+            })
+        })
+        return listsData;
+    }
+
     // const getEditCompensations = (compensations) => {
     //     let compensationData = [];
     //     compensations.forEach(com => {
@@ -70,19 +88,20 @@ const OffersForm = (props) => {
     //     })
     //     return compensationData;
     // }
-
+    //debugger
     const setInitialValues = {
         title: props.service ? props.service.title : '',
         description: props.service ? props.service.description : '',
         cool_feature: props.service ? props.service.cool_feature : '',
         skills: props.service ? getEditSkills(props.service.skills) : '',
-        compensation_ids: props.service ? getEditCompensations(props.service.compensations) : null || props.selectedCategory === Categories.DONATIONS ? props.compensations[0].id : null,
+        compensation_ids: props.service ? getEditCompensations(props.service.compensations) : props.selectedCategory && props.selectedCategory.length && props.selectedCategory.filter(e => e.value.includes(Categories.DONATIONS)).length && props.compensations && props.compensations.length ? props.compensations[0].id : [],
         specification: props.service ? props.service.specification : '',
         website: props.service ? props.service.website : '',
         address: props.service ? props.service.address : { ...address },
         profile_id: props.service ? props.service.profile_id : props.user.subscription_status !== SubscriptionStatus.ACTIVE ? parseInt(props.user.primary_profile_id) : '',
         // { zip: props.service.address.zip } : '',
         virtual: props.service && typeof props.service.virtual === "boolean" ? props.service.virtual : false,
+        categories: props.service ? getCategories(props.service.category) : []
     }
 
     const noOptionsMessage = (a, b) => {
@@ -110,7 +129,6 @@ const OffersForm = (props) => {
 
     const addOrUpdateMyService = (values) => {
         const myService = cloneDeep(values);
-        debugger
         if (!myService.address && !myService.address.zip || myService.address.zip === '') {
             delete myService.address;
         } else {
@@ -135,7 +153,14 @@ const OffersForm = (props) => {
         // myService.compensation_ids = values.compensation_ids && values.compensation_ids.map(c => {
         //     return c.value
         // })
-
+        let categoriesArray = [];
+        props.categories.map(e => {
+            if (props.selectedCategory.filter(f => f.value == e.name).length) {
+                categoriesArray.push(e.id)
+            }
+        })
+        delete myService.categories;
+        myService['category_ids'] = categoriesArray;
         // myService.address.zip = myService.address.zip.toString();
         // myService['profile_id'] = props.user.primary_profile_id;
         addCategoryId(myService, props.categories);
@@ -146,7 +171,7 @@ const OffersForm = (props) => {
             myService.defaultBase64Index = props.defaultBase64Index
         }
         props.addOrUpdateMyService(myService);
-        props.setSelectedCategory(Categories.MY_SERVICES)
+        props.setSelectedCategory([{ value: Categories.MY_SERVICES }])
     }
 
     function preloader() {
@@ -309,15 +334,29 @@ const OffersForm = (props) => {
                         flag = true
                     }
                 }
+                // commented while in conflict(multi cat to staging) - requested by Samson Jun 23rd
+                if (formicProps.values.categories && formicProps.values.categories.length) {
+                    selectedCategory(formicProps.values.categories);
+                }
+
+
                 if (props.compensations && props.compensations.length > 0) {
                     let eleIndex = props.compensations.findIndex(i => i.name === "Let's get Creative")
-                       if (eleIndex) {
-                          let firstElement = props.compensations[eleIndex]
-                          props.compensations.splice(eleIndex, 1)
-                          props.compensations.unshift(firstElement)
-                       }
-                 }
+                    if (eleIndex) {
+                        let firstElement = props.compensations[eleIndex]
+                        props.compensations.splice(eleIndex, 1)
+                        props.compensations.unshift(firstElement)
+                    }
+                }
                 console.log(formicProps, "formicProps...........")
+                if (props.compensations && props.compensations.length > 0) {
+                    let eleIndex = props.compensations.findIndex(i => i.name === "Let's get Creative")
+                    if (eleIndex) {
+                        let firstElement = props.compensations[eleIndex]
+                        props.compensations.splice(eleIndex, 1)
+                        props.compensations.unshift(firstElement)
+                    }
+                }
                 return (
                     <Form>
                         {!isSafari() && < Prompt
@@ -348,14 +387,14 @@ const OffersForm = (props) => {
                                     <ErrorMessage name="title" render={msg => <span style={formInputTextErrorStyle}>{msg}</span>} />
                                 </div>
                                 <div className="form_group_modify">
-                                    <label for="ServiceDescription" className="label_modify">Description{props.selectedCategory === Categories.MY_SERVICES || props.selectedCategory === Categories.PLACES || props.selectedCategory === Categories.THINGS ? "/Type" : ""}{props.selectedCategory === Categories.PLACES ? "/Size" : ""}{props.selectedCategory === Categories.DONATIONS ? "" : "/Timeframe"}{props.selectedCategory === Categories.SHARING_OPPORTUNITIES ? "/Sharing Proposal" : ""} <span className="text-danger">*</span></label>
+                                    <label for="ServiceDescription" className="label_modify">Description{props.selectedCategory && props.selectedCategory.length && props.selectedCategory.filter(e => e.value.includes(Categories.MY_SERVICES)).length || props.selectedCategory && props.selectedCategory.length && props.selectedCategory.filter(e => e.value.includes(Categories.PLACES)).length || props.selectedCategory && props.selectedCategory.length && props.selectedCategory.filter(e => e.value.includes(Categories.THINGS)).length ? "/Type" : ""}{props.selectedCategory && props.selectedCategory.length && props.selectedCategory.filter(e => e.value.includes(Categories.PLACES)).length ? "/Size" : ""}{props.selectedCategory && props.selectedCategory.length && props.selectedCategory.filter(e => e.value.includes(Categories.DONATIONS)).length ? "" : "/Timeframe"}{props.selectedCategory && props.selectedCategory.length && props.selectedCategory.filter(e => e.value.includes(Categories.SHARING_OPPORTUNITIES)).length ? "/Sharing Proposal" : ""} <span className="text-danger">*</span></label>
                                     <Field name="description" as="textarea" id="ServiceDescription" className="input_modify input_modify_lg" rows="4"
                                         style={errors.description && touched.description ? formInputErrorStyle : null}
                                         placeholder={`Description: Enter a complete description of your services, including keywords others will use to find you and your offer.\nType: Also, what category does your service fall within (accounting, marketing, legal, Financial Services, etc)?\nTime Frame: Finally, when can you start?  Are you looking for a gig, project, part-time or full time job?`}
                                     />
                                     <ErrorMessage name="description" render={msg => <span style={formInputTextErrorStyle}>{msg}</span>} />
                                 </div>
-                                {props.selectedCategory === Categories.MY_SERVICES || props.selectedCategory === Categories.PLACES ?
+                                {props.selectedCategory && props.selectedCategory.length && props.selectedCategory.filter(e => e.value.includes(Categories.MY_SERVICES)).length || props.selectedCategory && props.selectedCategory.length && props.selectedCategory.filter(e => e.value.includes(Categories.PLACES)).length ?
                                     <div className="form_group_modify">
                                         <label for="WhyCool" className="label_modify">Why I'm Cool</label>
                                         <Field id="WhyCool" type="text" name='cool_feature' className="input_modify input_modify_lg" placeholder="Tell us what separates especially you from everyone else they'd consider. " />
@@ -366,39 +405,46 @@ const OffersForm = (props) => {
                                         <Field name='cool_feature' type="text" className="input_modify input_modify_lg" id="WhyCool" placeholder="Tell us what makes this item especially unique and desirable?" />
                                     </div>
                                 }
-                                {props.selectedCategory === Categories.PLACES ?
+                                {props.selectedCategory && props.selectedCategory.length && props.selectedCategory.filter(e => e.value.includes(Categories.PLACES)).length ?
                                     <div className="form_group_modify">
                                         <label for="RulesRestrictions" className="label_modify">Rules/Restrictions</label>
                                         <Field as="textarea" name="specification" className="input_modify input_modify_lg" id="RulesRestrictions" rows="4" placeholder="Type here" />
                                     </div> : null
                                 }
-                                {props.selectedCategory === Categories.THINGS || props.selectedCategory === Categories.SHARING_OPPORTUNITIES ? <div className="form_group_modify">
+                                {props.selectedCategory && props.selectedCategory.length && props.selectedCategory.filter(e => e.value.includes(Categories.THINGS)).length || props.selectedCategory && props.selectedCategory.length && props.selectedCategory.filter(e => e.value.includes(Categories.SHARING_OPPORTUNITIES)).length ? <div className="form_group_modify">
                                     <label for="Description" className="label_modify">Specifications</label>
                                     <Field as="textarea" name="specification" className="input_modify" id="Description" rows="4" placeholder="This is a space to list detailed specifications, dimensions, or any other details you choose." />
                                 </div> : null
                                 }
-                                {props.selectedCategory === Categories.DONATIONS &&
+                                {props.selectedCategory && props.selectedCategory.length && props.selectedCategory.filter(e => e.value.includes(Categories.DONATIONS)).length ?
                                     <div className="form_group_modify">
                                         <label for="Linkget" className="label_modify">Link to get it</label>
                                         <Field type="text" name='website' placeholder="Add a link to the amazon page, retail sales site, or other url describing the item you wish to give away." className="input_modify input_modify_lg" id="Linkget"
                                             style={errors.website && touched.website ? formInputErrorStyle : null} />
                                         <ErrorMessage name="website" render={msg => <span style={formInputTextErrorStyle}>{msg}</span>} />
-                                    </div>
+                                    </div> : null
                                 }
                                 <div className="form-row">
-                                    <div className={`form_group_modify ${props.selectedCategory === Categories.MY_SERVICES || props.selectedCategory === Categories.JOBS_GIGS ? "col-md-4" : "col-md-3"}`}>
+                                    <div className={`form_group_modify ${props.selectedCategory && props.selectedCategory.length && props.selectedCategory.filter(e => e.value.includes(Categories.MY_SERVICES)).length || props.selectedCategory && props.selectedCategory.length && props.selectedCategory.filter(e => e.value.includes(Categories.JOBS_GIGS)).length ? "col-md-4" : "col-md-3"}`}>
                                         <label for="Categories" className="label_modify">Categories </label>
-                                        <Field as="select" className="input_modify cstSelect"
-                                            value={props.selectedCategory} onChange={(e) => selectedCategory(e)}
-                                        >
+                                        {/* <Field as="select" className="input_modify cstSelect" value={props.selectedCategory} onChange={(e) => selectedCategory(e)}>
                                             {props.categories && props.categories.map((category) => {
                                                 return <option key={category.id} >{category.name}</option>
-
                                             })}
-                                        </Field>
+                                        </Field> */}
+                                        <ReactSelect
+                                            value={formicProps.values.categories}
+                                            noOptionsMessage={noOptionsMessage}
+                                            onChange={formicProps.setFieldValue}
+                                            name='categories' id="categories" isMulti={true}
+                                            className=""
+                                            placeholder="Categories"
+                                            options={listOfCategories}
+                                            style={errors.categories && touched.categories ? formInputErrorStyle : null} />
+                                        <ErrorMessage name="categories" render={msg => <span style={formInputTextErrorStyle}>{msg}</span>} />
                                     </div>
-                                    {props.selectedCategory === Categories.MY_SERVICES || props.selectedCategory === Categories.JOBS_GIGS ?
-                                        <div className={`form_group_modify ${props.selectedCategory === Categories.MY_SERVICES || props.selectedCategory === Categories.JOBS_GIGS ? "col-md-4" : "col-md-3"}`}>
+                                    {props.selectedCategory && props.selectedCategory.length && props.selectedCategory.filter(e => e.value.includes(Categories.MY_SERVICES)).length || props.selectedCategory && props.selectedCategory.length && props.selectedCategory.filter(e => e.value.includes(Categories.JOBS_GIGS)).length ?
+                                        <div className={`form_group_modify ${props.selectedCategory && props.selectedCategory.length && props.selectedCategory.filter(e => e.value.includes(Categories.MY_SERVICES)).length || props.selectedCategory && props.selectedCategory.length && props.selectedCategory.filter(e => e.value.includes(Categories.JOBS_GIGS)).length ? "col-md-4" : "col-md-3"}`}>
                                             <label for="Skills" className="label_modify">Skills</label>
                                             <ReactSelect
                                                 value={formicProps.values.skills}
@@ -410,7 +456,7 @@ const OffersForm = (props) => {
                                                 options={skills} />
                                         </div> : null
                                     }
-                                    <div className={`form_group_modify ${props.selectedCategory === Categories.MY_SERVICES || props.selectedCategory === Categories.JOBS_GIGS ? "col-md-4" : "col-md-3"}`}>
+                                    <div className={`form_group_modify ${props.selectedCategory && props.selectedCategory.length && props.selectedCategory.filter(e => e.value.includes(Categories.MY_SERVICES)).length || props.selectedCategory && props.selectedCategory.length && props.selectedCategory.filter(e => e.value.includes(Categories.JOBS_GIGS)).length ? "col-md-4" : "col-md-3"}`}>
                                         <label for="Compensation" className="label_modify">Compensation <span className="text-danger">*</span></label>
                                         {/* <MultiSelectCheckBox
                                             options={compensations}
@@ -420,44 +466,43 @@ const OffersForm = (props) => {
                                             value={formicProps.values.compensation_ids}
                                             onChange={formicProps.setFieldValue}
                                         /> */}
-                                        {props.selectedCategory === Categories.DONATIONS ?
+                                        {/* {props.selectedCategory && props.selectedCategory.length && props.selectedCategory.filter(e=> e.value.includes(Categories.DONATIONS)).length ?
                                             <Field disabled={true} as="select" name='compensation_ids' className="input_modify cstSelect"
                                                 style={errors.compensation_ids && touched.compensation_ids ? formInputErrorStyle : { backgroundColor: 'whitesmoke' }}
                                             >
                                                 <option defaultValue>{props.compensations[0].name}</option>
 
-                                            </Field> :
+                                            </Field> : */}
 
-                                            <Field as="select" name='compensation_ids' className="input_modify cstSelect"
-                                                style={errors.compensation_ids && touched.compensation_ids ? formInputErrorStyle : null}
-                                            >
+                                        <Field as="select" name='compensation_ids' className="input_modify cstSelect"
+                                            style={errors.compensation_ids && touched.compensation_ids ? formInputErrorStyle : null}
+                                        >
 
-                                                {props.compensations.map(compensation => {
-                                                    if (compensation.name === "Let's get Creative") {
-                                                        if (!formicProps.values.compensation_ids || (formicProps.values.compensation_ids && formicProps.values.compensation_ids.length === 0)) {
-                                                            formicProps.setFieldValue('compensation_ids', compensation.id)
-                                                        }
-                                                        return <option value={compensation.id} style={{ backgroundColor: '#EF5A2F', color: 'white' }}>{compensation.name}</option>
+                                            {props.compensations.map(compensation => {
+                                                if (compensation.name === "Let's get Creative") {
+                                                    if (!formicProps.values.compensation_ids || (formicProps.values.compensation_ids && formicProps.values.compensation_ids.length === 0)) {
+                                                        formicProps.setFieldValue('compensation_ids', compensation.id)
                                                     }
-                                                    else {
-                                                        return <option value={compensation.id}>{compensation.name}</option>
-                                                    }
-                                                })}
-                                            </Field>
-                                        }
+                                                    return <option value={compensation.id} style={{ backgroundColor: '#EF5A2F', color: 'white' }}>{compensation.name}</option>
+                                                }
+                                                else {
+                                                    return <option value={compensation.id}>{compensation.name}</option>
+                                                }
+                                            })}
+                                        </Field>
+                                        {/* } */}
                                         <ErrorMessage name="compensation_ids" render={msg => <span style={formInputTextErrorStyle}>{msg}</span>} />
                                     </div>
 
-                                    {
-                                        props.selectedCategory === Categories.PLACES || props.selectedCategory === Categories.THINGS || props.selectedCategory === Categories.SHARING_OPPORTUNITIES || props.selectedCategory === Categories.DONATIONS ?
-                                            <div className={`form_group_modify ${props.selectedCategory === Categories.PLACES || props.selectedCategory === Categories.THINGS || props.selectedCategory === Categories.SHARING_OPPORTUNITIES || props.selectedCategory === Categories.DONATIONS ? "col-md-3" : null}`}>
+                                    {/* {
+                                    props.selectedCategory && props.selectedCategory.length && props.selectedCategory.filter(e=> e.value.includes(Categories.PLACES)).length || props.selectedCategory && props.selectedCategory.length && props.selectedCategory.filter(e=> e.value.includes(Categories.THINGS)).length || props.selectedCategory && props.selectedCategory.length && props.selectedCategory.filter(e=> e.value.includes(Categories.SHARING_OPPORTUNITIES)).length || props.selectedCategory && props.selectedCategory.length && props.selectedCategory.filter(e=> e.value.includes(Categories.DONATIONS)).length ?
+                                            <div className={`form_group_modify ${props.selectedCategory && props.selectedCategory.length && props.selectedCategory.filter(e=> e.value.includes(Categories.PLACES)).length || props.selectedCategory && props.selectedCategory.length && props.selectedCategory.filter(e=> e.value.includes(Categories.THINGS)).length || props.selectedCategory && props.selectedCategory.length && props.selectedCategory.filter(e=> e.value.includes(Categories.SHARING_OPPORTUNITIES)).length || props.selectedCategory && props.selectedCategory.length && props.selectedCategory.filter(e=> e.value.includes(Categories.DONATIONS)).length ? "col-md-3" : null}`}>
                                                 <label for="Address" className="label_modify">City</label>
                                                 <div className="address_info_icon">
                                                     <CustomToolTip placement="top" text={<span>Auto-Lookup: start typing City name</span>}>
                                                         <img src="/custom_images/icn_info.svg" className="si_inner" alt="search" />
                                                     </CustomToolTip>
                                                 </div>
-                                                {/* <Field type="text" className="input_modify input_modify_lg" name="address[street_address]" id="Address" /> */}
                                                 <AddressAutoComplete
                                                     name="address[street_address]"
                                                     errors={errors}
@@ -471,66 +516,61 @@ const OffersForm = (props) => {
                                                 />
                                                 <ErrorMessage name="address[street_address]" render={msg => <span style={formInputTextErrorStyle}>{msg}</span>} />
                                             </div> : null
-                                    }
-                                    {
-                                        props.selectedCategory === Categories.PLACES || props.selectedCategory === Categories.THINGS || props.selectedCategory === Categories.SHARING_OPPORTUNITIES || props.selectedCategory === Categories.DONATIONS ?
-                                            <div className={`form_group_modify ${props.selectedCategory === Categories.PLACES || props.selectedCategory === Categories.THINGS || props.selectedCategory === Categories.SHARING_OPPORTUNITIES || props.selectedCategory === Categories.DONATIONS ? "col-md-3" : null}`}>
+                                            } */}
+                                    {/* {
+                                        props.selectedCategory && props.selectedCategory.length && props.selectedCategory.filter(e=> e.value.includes(Categories.PLACES)).length || props.selectedCategory && props.selectedCategory.length && props.selectedCategory.filter(e=> e.value.includes(Categories.THINGS)).length || props.selectedCategory && props.selectedCategory.length && props.selectedCategory.filter(e=> e.value.includes(Categories.SHARING_OPPORTUNITIES)).length || props.selectedCategory && props.selectedCategory.length && props.selectedCategory.filter(e=> e.value.includes(Categories.DONATIONS)).length ?
+                                            <div className={`form_group_modify ${props.selectedCategory && props.selectedCategory.length && props.selectedCategory.filter(e=> e.value.includes(Categories.PLACES)).length || props.selectedCategory && props.selectedCategory.length && props.selectedCategory.filter(e=> e.value.includes(Categories.THINGS)).length || props.selectedCategory && props.selectedCategory.length && props.selectedCategory.filter(e=> e.value.includes(Categories.SHARING_OPPORTUNITIES)).length || props.selectedCategory && props.selectedCategory.length && props.selectedCategory.filter(e=> e.value.includes(Categories.DONATIONS)).length ? "col-md-3" : null}`}>
                                                 <label for="zip" className="label_modify">Zip code
                                                     {formicProps.values.virtual ? null : <span className="text-danger">*</span>}
                                                 </label>
                                                 <Field disabled={formicProps.values.virtual} style={(errors.address && errors.address['zip']) && (touched.address && touched.address['zip']) ? formInputErrorStyle : null}
                                                     type="text" className="input_modify input_modify_lg" placeholder="Zipcode" name="address[zip]" id="zip" />
                                                 <ErrorMessage name="address[zip]" render={msg => <span style={formInputTextErrorStyle}>{msg}</span>} />
-                                                {/* <span style={formInputTextErrorStyle}>
-                                            {(errors.address && errors.address['zip'])}
-                                        </span> */}
                                             </div> : null
-                                    }
+                                    } */}
                                 </div>
-                                {
-                                    props.selectedCategory === Categories.MY_SERVICES || props.selectedCategory === Categories.JOBS_GIGS ?
-                                        <div className="form-row">
-                                            {
-                                                props.selectedCategory == Categories.MY_SERVICES || props.selectedCategory === Categories.JOBS_GIGS ?
-                                                    <div className={`form_group_modify ${props.selectedCategory === Categories.MY_SERVICES || props.selectedCategory === Categories.JOBS_GIGS ? "col-md-4" : null}`}>
-                                                        <label for="Education" className="label_modify">Credentials</label>
-                                                        <Field type="text" name="specification" className="input_modify input_modify_lg" id="Education" placeholde="List your credentials, experience, or relevant educational background. " />
-                                                    </div> : null
-                                            }
-                                            <div className={`form_group_modify ${props.selectedCategory === Categories.MY_SERVICES || props.selectedCategory === Categories.JOBS_GIGS ? "col-md-4" : null}`}>
-                                                <label for="Address" className="label_modify">City</label>
-                                                <div className="address_info_icon">
-                                                    <CustomToolTip placement="top" text={<span>Auto-Lookup: start typing City name</span>}>
-                                                        <img src="/custom_images/icn_info.svg" className="si_inner" alt="search" />
-                                                    </CustomToolTip>
-                                                </div>
-                                                {/* <Field type="text" className="input_modify input_modify_lg" name="address[street_address]" id="Address" /> */}
-                                                <AddressAutoComplete
-                                                    name="address[street_address]"
-                                                    errors={errors}
-                                                    disabled={formicProps.values.virtual}
-                                                    touched={touched}
-                                                    setFieldTouched={formicProps.setFieldTouched}
-                                                    address={props.address}
-                                                    value={formicProps.values.address['street_address'] || formicProps.values.address['city']}
-                                                    onChange={formicProps.setFieldValue}
-                                                    handleAddressSelect={props.handleAddressSelect}
-                                                />
-                                                <ErrorMessage name="address[street_address]" render={msg => <span style={formInputTextErrorStyle}>{msg}</span>} />
-                                            </div>
-                                            <div className={`form_group_modify ${props.selectedCategory === Categories.MY_SERVICES || props.selectedCategory === Categories.JOBS_GIGS ? "col-md-4" : null}`}>
-                                                <label for="zip" className="label_modify">Zip code
-                                                    {formicProps.values.virtual ? null : <span className="text-danger">*</span>}
-                                                </label>
-                                                <Field disabled={formicProps.values.virtual} style={(errors.address && errors.address['zip']) && (touched.address && touched.address['zip']) ? formInputErrorStyle : null}
-                                                    type="text" className="input_modify input_modify_lg" placeholder="Zipcode" name="address[zip]" id="zip" />
-                                                <ErrorMessage name="address[zip]" render={msg => <span style={formInputTextErrorStyle}>{msg}</span>} />
-                                                {/* <span style={formInputTextErrorStyle}>
-                                            {(errors.address && errors.address['zip'])}
-                                        </span> */}
-                                            </div>
-                                        </div> : null
-                                }
+                                {/* {
+                                    props.selectedCategory && props.selectedCategory.length && props.selectedCategory.filter(e=> e.value.includes(Categories.MY_SERVICES)).length || props.selectedCategory && props.selectedCategory.length && props.selectedCategory.filter(e=> e.value.includes(Categories.JOBS_GIGS)).length ? */}
+                                <div className="form-row">
+                                    {
+                                        props.selectedCategory && props.selectedCategory.length && props.selectedCategory.filter(e => e.value.includes(Categories.MY_SERVICES)).length || props.selectedCategory && props.selectedCategory.length && props.selectedCategory.filter(e => e.value.includes(Categories.JOBS_GIGS)).length ?
+                                            <div className={`form_group_modify ${props.selectedCategory && props.selectedCategory.length && props.selectedCategory.filter(e => e.value.includes(Categories.MY_SERVICES)).length || props.selectedCategory && props.selectedCategory.length && props.selectedCategory.filter(e => e.value.includes(Categories.JOBS_GIGS)).length ? "col-md-4" : null}`}>
+                                                <label for="Education" className="label_modify">Credentials</label>
+                                                <Field type="text" name="specification" className="input_modify input_modify_lg" id="Education" placeholde="List your credentials, experience, or relevant educational background. " />
+                                            </div> : null
+                                    }
+                                    <div className="form_group_modify col-md-4">
+                                        <label for="Address" className="label_modify">City</label>
+                                        <div className="address_info_icon">
+                                            <CustomToolTip placement="top" text={<span>Auto-Lookup: start typing City name</span>}>
+                                                <img src="/custom_images/icn_info.svg" className="si_inner" alt="search" />
+                                            </CustomToolTip>
+                                        </div>
+                                        {/* <Field type="text" className="input_modify input_modify_lg" name="address[street_address]" id="Address" /> */}
+                                        <AddressAutoComplete
+                                            name="address[street_address]"
+                                            errors={errors}
+                                            disabled={formicProps.values.virtual}
+                                            touched={touched}
+                                            setFieldTouched={formicProps.setFieldTouched}
+                                            address={props.address}
+                                            value={formicProps.values.address['street_address'] || formicProps.values.address['city']}
+                                            onChange={formicProps.setFieldValue}
+                                            handleAddressSelect={props.handleAddressSelect}
+                                        />
+                                        <ErrorMessage name="address[street_address]" render={msg => <span style={formInputTextErrorStyle}>{msg}</span>} />
+                                    </div>
+                                    <div className="form_group_modify col-md-4">
+                                        <label for="zip" className="label_modify">Zip code
+                                            {formicProps.values.virtual ? null : <span className="text-danger">*</span>}
+                                        </label>
+                                        <Field disabled={formicProps.values.virtual} style={(errors.address && errors.address['zip']) && (touched.address && touched.address['zip']) ? formInputErrorStyle : null}
+                                            type="text" className="input_modify input_modify_lg" placeholder="Zipcode" name="address[zip]" id="zip" />
+                                        <ErrorMessage name="address[zip]" render={msg => <span style={formInputTextErrorStyle}>{msg}</span>} />
+                                    </div>
+                                </div>
+                                {/* : null
+                                } */}
                                 {/* <div className="form-row">
                                     <div className="form_group_modify col-md-4">
                                         <label for="City" className="label_modify">City</label>

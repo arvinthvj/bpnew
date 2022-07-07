@@ -204,22 +204,7 @@ const BusinessProfiles = props => {
                                             text="Click to read the full profile"
                                           >
                                             {
-                                              props.goToStep && props.goToStep.steps > 0
-                                                ? <a
-                                                  href="javascript:void(0)"
-                                                  onClick={() => {
-                                                    debugger
-                                                    let step = props.goToStep.steps + 1
-                                                    props.handleStepChange(step)
-                                                  }}
-                                                  className="ph_underline"
-                                                  style={{
-                                                    color: '#EF5A2F',
-                                                  }}
-                                                >
-                                                  {profile.title}
-                                                </a>
-                                                : <NavLink
+                                               <NavLink
                                                   to={`business/${profile.id}/details`}
                                                   className="ph_underline"
                                                   style={{

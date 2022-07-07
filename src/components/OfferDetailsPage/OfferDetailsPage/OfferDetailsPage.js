@@ -220,7 +220,7 @@ export const Banner = props => {
       }
     }
 
-    if (props.isProfile && images.count > 0 && images.profileImage) {
+    if (props.isProfile== true || props.isProfile== false && images.count > 0 && images.profileImage) {
       bannerImages = (
         <div className="default_banner_bg grey_background_banner_bg">
           <div>

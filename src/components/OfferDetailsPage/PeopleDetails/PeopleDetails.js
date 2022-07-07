@@ -17,6 +17,7 @@ import {
 import Moment from 'react-moment';
 
 const peopleDetails = props => {
+  debugger
   let content = (
     <div className="ph_empty_message" role="alert">
       <img
@@ -36,6 +37,7 @@ const peopleDetails = props => {
     );
   }
   if (props.details && (!props.isServiceLoading || props.isImagesLoading)) {
+    debugger
     let attachments = [];
     console.log(props.details, 'detailsFromProfileDetails.js');
     if (
@@ -349,6 +351,7 @@ const peopleDetails = props => {
         </Oux>
       );
     } else {
+      debugger
       if (props.details.attachments && props.details.attachments.length > 0) {
         attachments = props.details.attachments;
       }

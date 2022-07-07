@@ -19,42 +19,30 @@ import { NavLink } from 'react-router-dom';
 const businessDetails = props => {
   let content = (
     <div className="ph_empty_message" role="alert">
-      <img
-        className="ph_empty_image"
-        src={EMPTY_IMAGE_PATH.SEARCH}
-        alt="No Result Found"
-      />
+      <img className="ph_empty_image" src={EMPTY_IMAGE_PATH.SEARCH} alt="No Result Found"/>
       <div className="ph_empty_text">No Result Found</div>
     </div>
   );
   let sectionClassName = null;
   if (props.isServiceLoading) {
     content = (
-      <div className="ph_empty_message" role="alert">
-        <SpinnerLoader />
-      </div>
+      <div className="ph_empty_message" role="alert"><SpinnerLoader /></div>
     );
   }
-  console.log(props.details, 'Profile details');
+
   if (props.details && (!props.isServiceLoading || props.isImagesLoading)) {
     let attachments = [];
-    console.log(props.details, 'details');
     if (
-      (props.detailsType &&
-        props.detailsType.toLowerCase() ===
-          CategoriesList.PROFILE.toLowerCase()) ||
-      props.detailsType.toLowerCase() === 'business'
-    ) {
-      sectionClassName =
-        'ph_main_sec pt_83 ph_filter_sec ph_banner_sec ph_profile_banner_sec';
+      (props.detailsType && props.detailsType.toLowerCase() === CategoriesList.BUSINESS.toLowerCase())) {
+      sectionClassName ='ph_main_sec pt_83 ph_filter_sec ph_banner_sec ph_profile_banner_sec';
       let profileImage = null;
       if (
-        props.details.profile &&
-        props.details.profile.photo_urls &&
-        Object.keys(props.details.profile.photo_urls).length > 0
+        props.details &&
+        props.details.photo_urls &&
+        Object.keys(props.details.photo_urls).length > 0
       ) {
         // attachments.push({ photo_path: props.details.profile.photo_path })
-        profileImage = props.details.profile.photo_urls.medium;
+        profileImage = props.details.photo_urls.original;
       }
       let routeToProjectOwner = `/${props.detailsType}/${props.details.id}/profile`;
       content = (
@@ -89,7 +77,7 @@ const businessDetails = props => {
             isLoading={props.isLoading}
             profileDetails={props.profileDetails}
             getShareURL={props.getShareURL}
-            isProfile={true}
+            isProfile={false}
             title={props.details.title}
             history={props.history}
             user={props.user}
@@ -295,7 +283,7 @@ const businessDetails = props => {
                             to={routeToProjectOwner}
                             className="lc_info lc_inner_content text-capitalize ph_underline text-primary mt-0"
                           >
-                            {props.details.name}
+                            {props.details.profile.name}
                           </NavLink>
                         </div>
                       </div>
