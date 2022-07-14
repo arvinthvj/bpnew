@@ -172,6 +172,7 @@ const homePage = props => {
     }
 
     let searchSection = null
+    debugger
     if (props.searchResults && props.searchResults.length > 0 && props.user) {
         searchSection = (
             <Oux>
@@ -194,6 +195,7 @@ const homePage = props => {
                                     }
                                 }
                                 let routeToPush = null
+                                let routeToBusiness = null
                                 let categoryName = null
                                 if (service.category.filter(e => e.name.toLowerCase() === CategoriesList.PEOPLE.toLowerCase()).length) {
                                     routeToPush = routes.MY_SERVICES
@@ -210,6 +212,8 @@ const homePage = props => {
                                 } else if (service.category.filter(e => e.name.toLowerCase() === CategoriesList.DONATION.toLowerCase()).length) {
                                     routeToPush = routes.DONATIONS_GIVEAWAYS
                                     categoryName = "Other/Misc"
+                                } else if (service.category.filter(e => e.name.toLowerCase() === CategoriesList.BUSINESS.toLowerCase()).length) {
+                                    routeToBusiness = `${CategoriesList.BUSINESS}/${service.profile_id}/details`
                                 }
                                 if (service.type.toLowerCase() === CategoriesList.WANT_AD.key.toLowerCase()) {
                                     return (
@@ -345,6 +349,7 @@ const homePage = props => {
                                                     return acc;
                                                 }, "")}</a>
                                                 <a href="javascript:void(0)" onClick={() => {
+                                                    service.category.filter(e => e.name.toLowerCase() === CategoriesList.BUSINESS.toLowerCase()).length ? props.history.push(routeToBusiness) : 
                                                     props.onClickCards(service)
                                                 }}>
                                                     <img className="card-img-top" src={thumbnail} alt={service.title} />
@@ -354,7 +359,28 @@ const homePage = props => {
                                                         props.user && props.user.profiles && props.user.profiles.length > 0 && props.user.profiles.filter(profile => profile.id === service.profile.id).map(profile => {
                                                             return (
                                                                 <CustomToolTip placement="top" text="Edit this card">
-                                                                    <a
+                                                                    {service.category.filter(e => e.name.toLowerCase() === CategoriesList.BUSINESS.toLowerCase()).length ? (
+                                                                        <a href="javascript:void(0)" onClick={() => {
+                                                                            debugger
+                                                                            if ( service.category.filter(e => e.name.toLowerCase() === CategoriesList.BUSINESS.toLowerCase()).length
+                                                                                // profile.type &&
+                                                                                // profile.type.toLowerCase() === 'company'
+                                                                            ) {
+                                                                                props.setBusinessProfile(true);
+                                                                            } else {
+                                                                                props.setBusinessProfile(false);
+                                                                            }
+                                                                            // props.toggleManageEditForm(Number(service.profile_id));
+                                                                            let detailsToSend = {...service.profile, setBusinessCategory : true};
+                                                                            props.history.push({
+                                                                                pathname: routes.MANAGE_PROFILE_EDIT, state: {detailsToSend }
+                                                                            })
+                                                                            }}
+                                                                            className="top_icn_share_save ph_sm_cricle">
+                                                                            <img src="/images/icons/icn_edit_orange.svg" alt="Edit" />
+                                                                            </a>
+                                                                    ) :(
+                                                                        <a
                                                                         href="javascript:void(0)"
                                                                         onClick={() => {
                                                                             storage.set('isEdit', true)
@@ -364,6 +390,8 @@ const homePage = props => {
                                                                         className="top_icn_share_save ph_sm_cricle">
                                                                         <img src="/images/icons/icn_edit_orange.svg" alt="Edit" />
                                                                     </a>
+                                                                    )}
+                                                                    
                                                                 </CustomToolTip>
                                                             )
                                                         })
@@ -377,7 +405,7 @@ const homePage = props => {
                                             </figure>
                                             <div class="card-body filter_bodyO">
                                                 <h5 class="card-title">
-                                                    <a href="javascript:void(0)" className="text-primary" onClick={() => props.onClickCards(service)}>
+                                                    <a href="javascript:void(0)" className="text-primary" onClick={() => service.category.filter(e => e.name.toLowerCase() === CategoriesList.BUSINESS.toLowerCase()).length ? props.history.push(routeToBusiness) : props.onClickCards(service)}>
                                                         {service.title.length > 50 ? `${service.title.substring(0, 45)}...` : service.title}
                                                     </a>
                                                 </h5>

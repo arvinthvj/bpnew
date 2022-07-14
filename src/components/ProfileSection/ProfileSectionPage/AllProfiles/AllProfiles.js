@@ -294,6 +294,7 @@ const AllProfiles = (props) => {
                                                             ) {
                                                                 props.setBusinessProfile(true);
                                                             }
+                                                            debugger
                                                             props.toggleManageEditForm(profile.id);
                                                             props.history.push(routes.MANAGE_PROFILE_EDIT);
                                                         }}
@@ -343,6 +344,7 @@ const AllProfiles = (props) => {
                                                     <a
                                                         href="javascript:void(0)"
                                                         onClick={() => {
+                                                            debugger
                                                             if (
                                                                 profile.type &&
                                                                 profile.type.toLowerCase() === 'company'

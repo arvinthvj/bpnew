@@ -204,6 +204,7 @@ debugger
                         ) {
                            resetForm();
                            let stateToPass = response.action.payload.profile;
+                           debugger
                            props.setBusinessProfile(false);
                            if(props.history.location.pathname.includes(routes.MANAGE_PROFILE_EDIT) && response.value.profile.type === "company") {
                               props.history.push({
@@ -238,6 +239,7 @@ debugger
                            response.value.success ||
                            response.value.success === 'true'
                         ) {
+                           debugger
                            let stateToPass = response.action.payload.profile
                            resetForm();
                            props.setBusinessProfile(false);
@@ -738,6 +740,7 @@ const mapStateToProps = (state) => ({
    isUserSettingsLoading: state.userReducer.isUserSettingsLoading
 });
 const mapStateToDispatch = (dispatch) => ({
+   addMyService: (service) => dispatch(actions.addService(service)),
    updateAccountInfo: (user) => dispatch(actions.updateAccountInfo(user)),
    changePassword: (password) => dispatch(actions.changePassword(password)),
    updateUserSettings: (setting) => dispatch(actions.updateUserSettings(setting)),

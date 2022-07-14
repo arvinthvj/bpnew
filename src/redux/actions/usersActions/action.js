@@ -76,6 +76,7 @@ export const addService = (service) => {
                 .then(response => {
                     if (!response.data.error) {
                         servicesList.push(response.data.service[0]);
+                        window.newOfferID = servicesList;
                         return servicesList;
                     }
                 })
@@ -85,6 +86,25 @@ export const addService = (service) => {
         })
     }
 }
+
+export const addServiceAsync = (service) => (dispatch, getState) => new Promise((res,rej)=>{
+    dispatch({
+        type: UserActionType.ADD_SERVICE,
+        payload: API.addService(service)
+          .then((response) => {
+            debugger
+            if (!response.data.error) {
+            //   servicesList.push(response.data.service[0]);
+              
+              res(response.data.service[0])
+            }
+          })
+          .catch((error) => {
+            console.log(error);
+          }),
+      });
+}) 
+
 
 export const addServiceWithImages = (service, extentions, arrayBuffer) => {
     let photo_paths = [];

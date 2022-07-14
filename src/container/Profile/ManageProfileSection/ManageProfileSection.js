@@ -56,6 +56,7 @@ class ManageProfileSection extends Component {
     };
 
     componentDidMount() {
+        debugger
         document.addEventListener('mousedown', this.handleClickOutsideServicelist);
         let currentPath = this.props.history.location.pathname;
         if (currentPath === routes.MANAGE_PROFILE) {
@@ -354,6 +355,7 @@ class ManageProfileSection extends Component {
     /* Edit Skills Functions Ends */
 
     toggleManageEditForm = (id) => {
+        debugger
         this.setState({
             showEditForm: !this.state.showEditForm,
             showAddForm: false,
@@ -390,7 +392,7 @@ class ManageProfileSection extends Component {
         if (this.state.showAddForm) {
             profileDetails = null;
         }
-debugger
+// debugger
         let breadcrumb = null;
         let currentPath = this.props.history.location.pathname;
         if (currentPath === routes.MANAGE_PROFILE_EDIT) {

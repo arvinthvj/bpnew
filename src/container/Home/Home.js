@@ -27,7 +27,10 @@ class Home extends React.Component {
         isLoading: true,
         searchText: '',
         searchInputFocus: false,
-        showPageLoader: true
+        showPageLoader: true,
+        showEditForm: false,
+        showAddForm: false,
+        selectedProfileId: null,
     }
 
     componentWillUnmount = () => {
@@ -123,6 +126,19 @@ class Home extends React.Component {
                 this.props.getDeckList();
                 this.props.fetchCurrentUser();
             }
+        }
+        if (this.props.businessProfile && this.props.selectedBusinessProfileId) {
+            this.setState({
+                showEditForm: true,
+                selectedProfileId: this.props.selectedBusinessProfileId,
+            });
+        }
+        if (
+            this.state.selectedProfileId &&
+            this.props.selectedBusinessProfileId &&
+            this.props.history.location.state
+        ) {
+            this.props.history.push(routes.MANAGE_PROFILE_EDIT);
         }
         setTimeout(() => {
             this.setState({ showPageLoader: false })
@@ -371,6 +387,21 @@ class Home extends React.Component {
         // this.setState({ searchResults: searchArray })
     }
 
+    toggleManageEditForm = (id) => {
+        this.setState({
+            showEditForm: !this.state.showEditForm,
+            showAddForm: false,
+            selectedProfileId: id,
+        });
+    };
+
+    toggleManageAddForm = () => {
+        this.setState({
+            showEditForm: !this.state.showAddForm,
+            showEditForm: false,
+        });
+    };
+
     resetSearch = () => {
         let userSearch = {
             selectedClassified: false,
@@ -539,6 +570,19 @@ class Home extends React.Component {
         if (this.state.showPageLoader) {
             return <PageLoader />
         }
+        // let profileDetails = null;
+        // if (
+        //     this.props.user &&
+        //     this.props.user.profiles &&
+        //     this.props.user.profiles.length > 0 &&
+        //     this.state.selectedProfileId
+        // ) {
+        //     this.props.user.profiles.map((profile, index) => {
+        //         if (this.state.selectedProfileId === profile.id) {
+        //             profileDetails = profile;
+        //         }
+        //     });
+        // }
         return (
             <Oux>
                 <SearchSection
@@ -599,7 +643,13 @@ class Home extends React.Component {
                     isNextPageLoading={this.state.isNextPageLoading}
                     storeFullDescription={this.props.storeFullDescription}
                     currentPage={this.state.currentPage}
-                    user={this.props.user} />
+                    user={this.props.user}
+                    businessProfile={this.props.businessProfile}
+                    setBusinessProfile={this.props.setBusinessProfile}
+                    // profileDetails={profileDetails}
+                    profiles={this.props.user.profiles}
+                    toggleManageEditForm={this.toggleManageEditForm}
+                    toggleManageAddForm={this.toggleManageAddForm} />
             </Oux>
         );
     }
@@ -628,7 +678,9 @@ const mapStateToProps = (state) => ({
     selectedCompany: state.miscReducer.selectedCompany,
     city_list: state.configReducer.city_list,
     success_stories: state.configReducer.success_stories,
-    error: state.miscReducer.error
+    error: state.miscReducer.error,
+    businessProfile: state.profileReducer.businessProfile,
+    selectedBusinessProfileId: state.profileReducer.selectedBusinessProfileId,
 });
 
 const mapStateToDispatch = (dispatch) => ({
@@ -646,9 +698,8 @@ const mapStateToDispatch = (dispatch) => ({
     storeFullDescription: (description, descriptionTitle) => dispatch(actions.storeFullDescription(description, descriptionTitle)),
     createClassifiedAddClicked: (value) => dispatch(actions.createClassifiedAddClicked(value)),
     logout: () => dispatch(actions.logout()),
-    // signout: () => dispatch(actions.signout())
+    // signout: () => dispatch(actions.signout()),
+    setBusinessProfile: (status) => dispatch(actions.businessProfile(status))
 });
 
 export default connect(mapStateToProps, mapStateToDispatch)(withRouter(Home));
-
-

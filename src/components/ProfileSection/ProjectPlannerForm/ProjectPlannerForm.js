@@ -14,7 +14,14 @@ import { boolean } from 'yup';
 const ProjectPlannerForm = props => {
 
     const[profileUpdateDetails, setProfileUpdateDetails] = useState({});
-
+    const waitForDependency = (callback, dependency) => {
+        var timer = setInterval(() => {
+            if(dependency()){
+                callback && callback()
+                clearInterval(timer);
+            }
+        }, 100)
+    };
 debugger
 useEffect(() => {
     if(props.history.location.state.stateToPass) {
@@ -86,8 +93,8 @@ debugger
                         if(e == "active_status" && profileUpdateDetails[e]) {
                             profileUpdateDetails[e] = undefined;
                         }
-                        if(e == "type" && profileUpdateDetails[e]) {	
-                            profileUpdateDetails[e] = undefined;	
+                        if(e == "type" && profileUpdateDetails[e]) {    
+                            profileUpdateDetails[e] = undefined;    
                         }
                         if(e == "sort" && typeof(profileUpdateDetails[e]) === "number") {
                             profileUpdateDetails[e] = undefined;
@@ -103,23 +110,142 @@ debugger
                             })
                         }
                     })
-                    props.updateProfile(profileUpdateDetails.id, { profile: {...profileUpdateDetails, ...values } })
-                       .then((response) => {
-                          console.log(response);
-                          if (response.value.success || response.value.success === 'true') {
-                             resetForm();
-                             props.setBusinessProfile(false);
-                             toastMsg('Profile updated successfully!');
-                             if(props.history.location.pathname.includes(routes.MANAGE_PROFILE_PLANNER)) {
-                                props.history.push(routes.MANAGE_ALL_PROFILE)
-                             }
-                             if (props.history.location.state && props.history.location.state.redirectToBuild) {
-                                props.history.push(routes.BUILD)
-                             }
-                          }
-                       }).catch((error) => {
-                          console.log(error);
-                       });
+                    // if(profileUpdateDetails && profileUpdateDetails.id) {
+                    //     return delete profileUpdateDetails.id;
+                    // }
+                    let combinedObj = {...profileUpdateDetails, ...values , profile_id : profileUpdateDetails.id+"", category_ids: [7] , compensation_ids: [6] }
+                    let createObj = {
+                        title: combinedObj.title,
+                        description: combinedObj.bio,
+                        cool_feature: combinedObj.email,
+                        skills: [],
+                        compensation_ids: combinedObj.compensation_ids,
+                        specification: combinedObj.first_name,
+                        address: {
+                            city: combinedObj.address.city,
+                            state: combinedObj.address.state,
+                            zip: combinedObj.address.zip,
+                            country: combinedObj.address.country,
+                            street_address: combinedObj.address.street_address,
+                        },
+                        profile_id: combinedObj.profile_id,
+                        virtual: combinedObj.primary,
+                        category_ids: combinedObj.category_ids,
+                        default_image_path: combinedObj.tag_line,
+                        photo_paths: [combinedObj.photo_path],
+                        time_frame: combinedObj.last_name,
+                        experience: combinedObj.about_us,
+                        website: combinedObj.website
+                    }
+                    let updateObj = {
+                        title: combinedObj.title,
+                        description: combinedObj.bio,
+                        cool_feature: combinedObj.email,
+                        skills: [],
+                        compensation_ids: combinedObj.compensation_ids,
+                        specification: combinedObj.first_name,
+                        address: {
+                            city: combinedObj.address.city,
+                            state: combinedObj.address.state,
+                            zip: combinedObj.address.zip,
+                            country: combinedObj.address.country,
+                            street_address: combinedObj.address.street_address,
+                        },
+                        profile_id: combinedObj.profile_id,
+                        virtual: combinedObj.primary,
+                        category_ids: combinedObj.category_ids,
+                        default_image_path: combinedObj.tag_line,
+                        new_photo_paths: [combinedObj.photo_path],
+                        time_frame: combinedObj.last_name,
+                        experience: combinedObj.about_us,
+                        website: combinedObj.website
+                    }
+                    debugger
+                    if(profileUpdateDetails.offer_id){
+                        props.updateMyService(profileUpdateDetails.offer_id, {...updateObj});
+                        props
+                            .updateProfile(profileUpdateDetails.id, {
+                              profile: {
+                                ...profileUpdateDetails,
+                                ...values,
+                                offer_id: profileUpdateDetails.offer_id,
+                              },
+                            })
+                            .then((response) => {
+                              console.log(response);
+                              if (
+                                response.value.success ||
+                                response.value.success === "true"
+                              ) {
+                                resetForm();
+                                props.setBusinessProfile(false);
+                                toastMsg("Profile updated successfully!");
+                                if (
+                                  props.history.location.pathname.includes(
+                                    routes.MANAGE_PROFILE_PLANNER
+                                  )
+                                ) {
+                                  props.history.push(routes.MANAGE_ALL_PROFILE);
+                                }
+                                if (
+                                  props.history.location.state &&
+                                  props.history.location.state.redirectToBuild
+                                ) {
+                                  props.history.push(routes.BUILD);
+                                }
+                              }
+                            })
+                            .catch((error) => {
+                              console.log(error);
+                            });
+                    }else{
+                        // window.newOfferID = undefined;
+                        props.addServiceAsync({ ...createObj }).then((e) => {
+                          debugger;
+                          props
+                            .updateProfile(profileUpdateDetails.id, {
+                              profile: {
+                                ...profileUpdateDetails,
+                                ...values,
+                                offer_id: e.id,
+                              },
+                            })
+                            .then((response) => {
+                              console.log(response);
+                              if (
+                                response.value.success ||
+                                response.value.success === "true"
+                              ) {
+                                resetForm();
+                                props.setBusinessProfile(false);
+                                toastMsg("Profile updated successfully!");
+                                if (
+                                  props.history.location.pathname.includes(
+                                    routes.MANAGE_PROFILE_PLANNER
+                                  )
+                                ) {
+                                  props.history.push(routes.MANAGE_ALL_PROFILE);
+                                }
+                                if (
+                                  props.history.location.state &&
+                                  props.history.location.state.redirectToBuild
+                                ) {
+                                  props.history.push(routes.BUILD);
+                                }
+                              }
+                            })
+                            .catch((error) => {
+                              console.log(error);
+                            });
+                        });
+                        
+                        
+                    }
+                    // waitForDependency(()=>{
+                    //         debugger
+                            
+                    //     },()=>window.newOfferID)
+                    
                  }
                 console.log(values, 'Values')
             }}
@@ -135,7 +261,7 @@ debugger
                         <div className="inner_form mxW_670">
                             <div className="fields">
                                 <div className="form_group_modify">
-                                    <label className="label_modify">About Us</label>
+                                    <label className="label_modify">About Us <span className="text-danger">*</span></label>
                                     <p className="fontS13">Who we are and what we're up to</p>
                                     <Field as="textarea" rows="3" style={errors.about_us && touched.about_us ? formInputErrorStyle : null} name="about_us" className="input_modify input_modify_lg" placeholder="Max 2000 characters" />
                                     <p className='charCount-PPF'>{formik_props.values.about_us && formik_props.values.about_us.length ? `${formik_props.values.about_us.split("").length}/2000` : ""}</p>
@@ -226,6 +352,10 @@ const mapStateToProps = state => ({
 
   const mapDispatchToProps = (dispatch) => {
     return {
+        addMyService: (service) => dispatch(actions.addService(service)),
+        addServiceAsync : (service) => dispatch(actions.addServiceAsync(service)),
+        updateMyService: (id, service) => dispatch(actions.updateService(id, service)),
+        // deleteMyService: (id) => dispatch(actions.deleteService(id)),
         fetchCurrentUser: () => dispatch(actions.fetchCurrentUser()),
         updateProfile: (profileId, profile) => dispatch(actions.updateProfile(profileId, profile)),
         createProfile: (user) => dispatch(actions.createProfile(user)),

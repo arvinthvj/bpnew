@@ -69,6 +69,7 @@ export {
 export {
    getServicesList,
    addService,
+   addServiceAsync,
    addServiceWithImages,
    updateService,
    updateServiceWithImage,
